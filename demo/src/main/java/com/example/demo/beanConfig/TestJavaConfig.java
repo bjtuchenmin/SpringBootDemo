@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class TestJavaConfig {
     @Bean
     public Integer beanConfiguredByJava() {
-        System.out.println("--------Configure Bean by Java-------");
+        System.out.println("-------- 使用 Java 代码配置 bean，在启动时自动执行 -------");
         return Integer.bitCount(200);
     }
 }
