@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: customer
+  datasource:
+    username: 'chenmin'
+    url: jdbc:postgresql://localhost:5432/customer
+    password: '123456'
+
+  # jpa 要和 datasource 同级，否则下列配置无效
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: 'true'
+    hibernate:
+      ddl_auto: update
+    show_sql: 'true'
+
