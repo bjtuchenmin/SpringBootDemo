@@ -22,7 +22,7 @@ public class CustomerService{
         // TODO：检查邮箱合法性、唯一性
         customerRepo.saveAndFlush(customer);
         FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8082/api/v1/fraud-check/{customerId}",
+                "http://fraud/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 customer.getId());
         if (fraudCheckResponse.isFraudulentCustomer()) {
