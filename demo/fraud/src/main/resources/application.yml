@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8082
 spring:
   application:
-    name: customer
+    name: fraud
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: 'root'
-    url: jdbc:mysql://localhost:3306/customer
+    url: jdbc:mysql://localhost:3306/fraud
     password: '123456'
 
   # jpa 要和 datasource 同级，否则下列配置无效
@@ -14,4 +14,3 @@ spring:
     hibernate:
       ddl_auto: update
     show_sql: 'true'
-
