@@ -12,7 +12,7 @@ spring:
   # jpa 要和 datasource 同级，否则下列配置无效
   jpa:
     hibernate:
-      ddl_auto: update
+      ddl_auto: create-drop
     show_sql: 'true'
 eureka:
   client:

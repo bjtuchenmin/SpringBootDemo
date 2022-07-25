@@ -1,6 +1,7 @@
 package com.example.customer.service;
 
-import com.example.customer.model.FraudCheckResponse;
+import com.example.clients.fraud.FraudCheckResponse;
+import com.example.clients.fraud.FraudClient;
 import com.example.customer.repo.CustomerRepo;
 import com.example.customer.model.Customer;
 import com.example.customer.model.CustomerRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerService{
     private final RestTemplate restTemplate;
     private final CustomerRepo customerRepo;
+    private FraudClient fraudClient;
     public void registerCustomer(CustomerRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -21,10 +23,7 @@ public class CustomerService{
                 .build();
         // TODO：检查邮箱合法性、唯一性
         customerRepo.saveAndFlush(customer);
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://fraud/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId());
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
         if (fraudCheckResponse.isFraudulentCustomer()) {
             throw new IllegalArgumentException("It is checked fraud");
         }
