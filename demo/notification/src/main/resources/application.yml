@@ -1,0 +1,22 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: notification
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 'root'
+    url: jdbc:mysql://localhost:3306/notification
+    password: '123456'
+
+  # jpa 要和 datasource 同级，否则下列配置无效
+  jpa:
+    hibernate:
+      ddl_auto: create-drop
+    show_sql: 'true'
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
