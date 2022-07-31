@@ -1,11 +1,11 @@
 package com.example.notification.api;
 
-import com.example.notification.model.Notification;
+import com.example.notification.rabbitMQ.MessageTemplate;
 import com.example.notification.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @RestController
 @Slf4j
@@ -20,10 +20,10 @@ public class NotificationController {
     @GetMapping(path = "{message}")
     public void sendNotification(@PathVariable("message") String message) {
         log.info("----------- Send notification -----------");
-        Notification notification = Notification.builder()
+        MessageTemplate messageTemplate = MessageTemplate.builder()
                 .message(message)
-                .createAt(LocalDateTime.now())
+                .createAt(new Date())
                 .build();
-        notificationService.send(notification);
+        notificationService.store(messageTemplate);
     }
 }

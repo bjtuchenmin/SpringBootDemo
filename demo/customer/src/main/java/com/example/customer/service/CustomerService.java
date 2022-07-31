@@ -1,20 +1,23 @@
 package com.example.customer.service;
 
+import com.example.notification.rabbitMQ.MessageTemplate;
+import com.example.amqp.RabbitMQMessageProducer;
 import com.example.clients.fraud.FraudCheckResponse;
 import com.example.clients.fraud.FraudClient;
-import com.example.clients.notification.NotificationClient;
 import com.example.customer.repo.CustomerRepo;
 import com.example.customer.model.Customer;
 import com.example.customer.model.CustomerRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @AllArgsConstructor
 public class CustomerService{
     private final CustomerRepo customerRepo;
     private FraudClient fraudClient;
-    private NotificationClient notificationClient;
+    private final RabbitMQMessageProducer messageProducer;
     public void registerCustomer(CustomerRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -28,7 +31,15 @@ public class CustomerService{
             throw new IllegalArgumentException("It is checked fraud");
         }
 
-        // TODO: 使用异步方式
-        notificationClient.sendNotification(customer.getLastName());
+        MessageTemplate message = MessageTemplate.builder()
+                .createAt(new Date())
+                .message("Customer with first name " + customer.getFirstName() + " registered")
+                .build();
+
+        // 发送消息
+        messageProducer.publish(
+                "internal.exchange",
+                "internal.notification.routing-key",
+                message);
     }
 }

@@ -14,9 +14,20 @@ spring:
     hibernate:
       ddl_auto: create-drop
     show_sql: 'true'
+  rabbitmq:
+    addresses: localhost:5672  # 使用 amqp (advanced message queue protocol, 因此无需 http 协议头)
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+# 配置消息队列属性
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key

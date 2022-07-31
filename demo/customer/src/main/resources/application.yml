@@ -14,6 +14,8 @@ spring:
     hibernate:
       ddl_auto: create-drop
     show_sql: 'true'
+  rabbitmq:
+    addresses: localhost:5672  # 使用 amqp (advanced message queue protocol, 因此无需 http 协议头)
 eureka:
   client:
     service-url:

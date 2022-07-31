@@ -1,4 +1,4 @@
-package com.example.notification.model;
+package com.example.notification.rabbitMQ;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Notification {
+public class MessageTemplate {
     @Id
     @SequenceGenerator(
             name = "notification_id_sequence",
@@ -25,5 +25,5 @@ public class Notification {
     )
     private Integer id;
     private String message;
-    private LocalDateTime createAt;
+    private Date createAt;
 }

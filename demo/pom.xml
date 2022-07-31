@@ -8,8 +8,8 @@
 		<module>fraud</module>
 		<module>eureka-server</module>
 		<module>clients</module>
-        <module>notification</module>
-    </modules>
+		<module>amqp</module>
+	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
