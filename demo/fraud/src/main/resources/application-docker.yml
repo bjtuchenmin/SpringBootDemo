@@ -1,0 +1,23 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: fraud
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 'root'
+    url: jdbc:mysql://mysql:3306/fraud
+    password: '123456'
+
+  # jpa 要和 datasource 同级，否则下列配置无效
+  jpa:
+    hibernate:
+      ddl_auto: update
+    show_sql: 'true'
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true

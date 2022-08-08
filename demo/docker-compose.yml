@@ -7,6 +7,77 @@ services:
       - "15672:15672"
     networks:
       - spring
+
+  eureka-server:
+    image: dockerchenmin/eureka-server:0.0.1-SNAPSHOT
+    container_name: eureka-server
+#    eureka 和 4 个微服务通过 network spring 通信
+    networks:
+      - spring
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  customer:
+    image: dockerchenmin/customer:0.0.1-SNAPSHOT
+    container_name: customer
+#    customer 通过 network spring 和 eureka 通信，通过 mysql 连数据库
+    networks:
+      - spring
+      - mysql
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  fraud:
+    image: dockerchenmin/fraud:0.0.1-SNAPSHOT
+    container_name: fraud
+    networks:
+      - spring
+      - mysql
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  notification:
+    image: dockerchenmin/notification:0.0.1-SNAPSHOT
+    container_name: notification
+    networks:
+      - spring
+      - mysql
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  mysql:
+    image: mysql:5.7.31
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    container_name: mysql
+    networks:
+      - mysql
+    ports:
+      - "3307:3306"
+
+#    由于各个容器是隔离的，因此需要 network 实现通信
 networks:
   spring:
+    driver: bridge
+  mysql:
     driver: bridge

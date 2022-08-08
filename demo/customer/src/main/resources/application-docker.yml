@@ -1,0 +1,30 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: customer
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 'root'
+    url: jdbc:mysql://mysql:3306/customer
+    password: '123456'
+
+  # jpa 要和 datasource 同级，否则下列配置无效
+  jpa:
+    hibernate:
+      ddl_auto: create-drop
+    show_sql: 'true'
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  rabbitmq:
+    addresses: rabbitmq:5672  # 使用 amqp (advanced message queue protocol, 因此无需 http 协议头)
+eureka:
+  client:
+    service-url:
+#      使用容器时，不能使用 localhost，需使用容器名指定
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
